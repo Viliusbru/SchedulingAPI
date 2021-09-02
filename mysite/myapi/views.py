@@ -1,8 +1,8 @@
 from .models import MeetingRoom
-from django.contrib.auth.models import User, Group
-from rest_framework import generics, permissions
+from django.contrib.auth.models import User
+from rest_framework import generics, permissions, viewsets
 from rest_framework.exceptions import ValidationError
-from .serializers import MeetingRoomSerializer
+from .serializers import MeetingRoomSerializer, UserSerializer
 
 
 class MeetingRoomList(generics.ListCreateAPIView):
@@ -27,3 +27,8 @@ class MeetingRoomDetail(generics.RetrieveUpdateDestroyAPIView):
             return self.update(request, *args, **kwargs)
         else:
             raise ValidationError("You can't update other people's inputs")
+
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.AllowAny, )
