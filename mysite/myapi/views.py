@@ -8,6 +8,7 @@ from .serializers import MeetingRoomSerializer, UserSerializer
 class MeetingRoomList(generics.ListCreateAPIView):
     queryset = MeetingRoom.objects.all()
     serializer_class = MeetingRoomSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
