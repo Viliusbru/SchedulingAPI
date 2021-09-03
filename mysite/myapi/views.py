@@ -1,6 +1,6 @@
 from .models import MeetingRoom
 from django.contrib.auth.models import User
-from rest_framework import generics, permissions, viewsets
+from rest_framework import generics, permissions
 from rest_framework.exceptions import ValidationError
 from .serializers import MeetingRoomSerializer, UserSerializer
 
@@ -8,6 +8,9 @@ from .serializers import MeetingRoomSerializer, UserSerializer
 class MeetingRoomList(generics.ListCreateAPIView):
     queryset = MeetingRoom.objects.all()
     serializer_class = MeetingRoomSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class MeetingRoomDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MeetingRoom.objects.all()
