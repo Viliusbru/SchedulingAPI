@@ -55,3 +55,5 @@ class ReservationSerializer(serializers.ModelSerializer):
                     'date_from', 
                     'date_to',
                     ]
+    # def validate(self):
+    #     if 
