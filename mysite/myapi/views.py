@@ -1,8 +1,8 @@
-from .models import MeetingRoom
+from .models import MeetingRoom, RoomReservation
 from django.contrib.auth.models import User
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
 from rest_framework.exceptions import ValidationError
-from .serializers import MeetingRoomSerializer, UserSerializer
+from .serializers import MeetingRoomSerializer, UserSerializer, ReservationSerializer
 
 
 class MeetingRoomList(generics.ListCreateAPIView):
@@ -36,3 +36,10 @@ class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.AllowAny, )
+
+class Reservation(generics.ListCreateAPIView):
+    queryset = RoomReservation.objects.all()
+    serializer_class = ReservationSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
