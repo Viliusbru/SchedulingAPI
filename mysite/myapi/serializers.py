@@ -45,7 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     # room = serializers.ReadOnlyField(source='room_name')
-    # organizer = serializers.ModelSerializer(source=User.request.username)
+    # organizer = serializers.Serializer(source=user.request.username)
     class Meta:
         model = RoomReservation
         fields = [  'room', 

@@ -22,10 +22,11 @@ class MeetingRoom(models.Model):
 class RoomReservation(models.Model):
     STATUS_VALID = 0
     STATUS_CANCELLED = 1
-    STATUS_TYPES = [
-        (STATUS_VALID, "Valid"),
-        (STATUS_CANCELLED, "Reserved"),
-    ]
+    STATUS_TYPES = (
+        ('open', 'Open'),
+        ('taken', 'Taken'),
+    )
+
     room = models.ForeignKey(
         MeetingRoom,
         related_name="reservations",
@@ -33,13 +34,15 @@ class RoomReservation(models.Model):
     )
     organizer = models.ForeignKey(
         User,
-        related_name="organized_reservations",
+        related_name="organizer",
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=150)
-    status = models.IntegerField(
+    status = models.CharField(
+        max_length=5,
         choices=STATUS_TYPES,
-        default=STATUS_VALID
+        blank=True,
+        default='Taken',
     )
     date_from = models.DateTimeField()
     date_to = models.DateTimeField()
