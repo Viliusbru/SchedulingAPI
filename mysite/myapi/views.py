@@ -44,4 +44,3 @@ class Reservation(generics.ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         return Reservation.objects.filter(organizer=user)
-    
