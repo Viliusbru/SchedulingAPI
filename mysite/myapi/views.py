@@ -2,7 +2,7 @@ from .models import MeetingRoom, RoomReservation
 from django.contrib.auth.models import User
 from rest_framework import generics, permissions, viewsets
 from rest_framework.exceptions import ValidationError
-from .serializers import MeetingRoomSerializer, UserSerializer, ReservationSerializer
+from .serializers import MeetingRoomSerializer, UserSerializer, ReservationSerializer, RoomReservationSerializer
 
 
 class MeetingRoomList(generics.ListCreateAPIView):
@@ -40,7 +40,16 @@ class UserCreate(generics.CreateAPIView):
 class Reservation(generics.ListCreateAPIView):
     queryset = RoomReservation.objects.all()
     serializer_class = ReservationSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def get_queryset(self):
-        user = self.request.user
-        return Reservation.objects.filter(organizer=user)
+class RoomReservation(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RoomReservation.objects.all()
+    serializer_class = RoomReservationSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    # def perform_create(self, serializer):
+    #     serializer.save(organizer=self.request.user)
+
+    # def get_queryset(self):
+    #     user = self.kwargs['organizer']
+    #     return Reservation.objects.filter(organizer__username=user)

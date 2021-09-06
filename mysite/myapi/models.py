@@ -35,6 +35,7 @@ class RoomReservation(models.Model):
     organizer = models.ForeignKey(
         User,
         related_name="organizer",
+        db_column="user",
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=150)
@@ -42,10 +43,10 @@ class RoomReservation(models.Model):
         max_length=5,
         choices=STATUS_TYPES,
         blank=True,
-        default='Taken',
+        default='taken',
     )
     date_from = models.DateTimeField()
     date_to = models.DateTimeField()
 
     def __str__(self):
-        return self.title
+        return self.title, self.organizer, self.room_name

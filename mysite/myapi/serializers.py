@@ -46,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ReservationSerializer(serializers.ModelSerializer):
     # room = serializers.ReadOnlyField(source='room_name')
     # organizer = serializers.Serializer(source=user.request.username)
+    # organizer = serializers.ReadOnlyField(source='organizer.request.username')
     class Meta:
         model = RoomReservation
         fields = [  'room', 
@@ -55,5 +56,15 @@ class ReservationSerializer(serializers.ModelSerializer):
                     'date_from', 
                     'date_to',
                     ]
-    # def validate(self):
-    #     if 
+
+class RoomReservationSerializer(serializers.ModelSerializer):
+    # room = serializers.ReadOnlyField(source='room_name')
+    class Meta:
+        model = RoomReservation
+        fields = [  'room', 
+                    'organizer', 
+                    'title', 
+                    'status', 
+                    'date_from', 
+                    'date_to',
+                    ]
